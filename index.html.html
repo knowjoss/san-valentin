@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mushu tiene algo que decir 🐉💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+    text-align: center;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    max-width: 420px;
+    position: relative;
+}
+
+.mushu-container {
+    position: relative;
+}
+
+.mushu-img {
+    width: 250px;
+    animation: floatDragon 3s ease-in-out infinite;
+}
+
+@keyframes floatDragon {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Globo */
+.speech {
+    background: white;
+    padding: 15px;
+    border-radius: 20px;
+    width: 280px;
+    font-size: 14px;
+    margin: 0 auto 15px auto;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    min-height: 70px;
+}
+
+#text span {
+    opacity: 0;
+    animation: fadeIn 0.2s forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+button {
+    padding: 12px 25px;
+    margin: 10px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.primary {
+    background-color: #ff4d6d;
+    color: white;
+}
+
+.secondary {
+    background-color: #999;
+    color: white;
+    position: absolute;
+}
+
+.primary:hover {
+    transform: scale(1.1);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="box">
+
+    <div id="scene1">
+        <div class="speech">
+            <span id="text"></span>
+        </div>
+
+        <div class="mushu-container">
+            <img src="mushu2.png" class="mushu-img">
+        </div>
+
+        <button id="nextBtn" class="primary" style="display:none;" onclick="goToScene2()">
+            Siguiente ➜
+        </button>
+    </div>
+
+</div>
+
+<audio id="typingSound" src="https://www.soundjay.com/mechanical/typewriter-key-1.mp3"></audio>
+
+<script>
+
+const fullText = "Soy de bolsillo para su conveniencia... Si viniera en tamaño normal, tu VACA moriría de miedo 🐉🔥 Pero hablando en serio... alguien quiere decirte algo muy importante ❤️";
+
+const textElement = document.getElementById("text");
+const typingSound = document.getElementById("typingSound");
+const nextBtn = document.getElementById("nextBtn");
+
+let index = 0;
+
+function typeWriter() {
+    if (index < fullText.length) {
+
+        let span = document.createElement("span");
+        span.textContent = fullText[index];
+        textElement.appendChild(span);
+
+        typingSound.currentTime = 0;
+        typingSound.play();
+
+        index++;
+        setTimeout(typeWriter, 40);
+
+    } else {
+        nextBtn.style.display = "inline-block";
+    }
+}
+
+typeWriter();
+
+/* Ir a escena romántica */
+function goToScene2() {
+
+    const box = document.getElementById("box");
+
+    box.innerHTML = `
+        <img src="mushu2.png" style="width:260px; animation: floatDragon 3s ease-in-out infinite;">
+        <h1 style="color:#ff4d6d;">¿Quieres ser mi San Valentín? ❤️</h1>
+        <button class="primary" onclick="sayYes()">Sí ❤️</button>
+        <button class="secondary" id="noBtn" onmouseover="moveButton()">No</button>
+    `;
+}
+
+/* Botón NO huye */
+function moveButton() {
+    let button = document.getElementById("noBtn");
+    let x = Math.random() * (window.innerWidth - 120);
+    let y = Math.random() * (window.innerHeight - 60);
+    button.style.left = x + "px";
+    button.style.top = y + "px";
+}
+
+/* Celebración */
+function sayYes() {
+
+    const box = document.getElementById("box");
+
+    box.innerHTML = `
+        <img src="mushu2.png" style="width:300px;">
+        <h1 style="color:#ff4d6d;">
+            ¡Sabía que dirías que sí! <br><br>
+            Nos vemos el 14 Mushu ❤️
+        </h1>
+    `;
+
+    for(let i=0; i<30; i++){
+        let heart = document.createElement("div");
+        heart.innerHTML = "❤️";
+        heart.style.position = "absolute";
+        heart.style.left = Math.random()*100 + "vw";
+        heart.style.top = "100vh";
+        heart.style.fontSize = "24px";
+        heart.style.animation = "floatUp 4s linear infinite";
+        document.body.appendChild(heart);
+    }
+}
+
+/* Animación corazones */
+const style = document.createElement("style");
+style.innerHTML = `
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity:1; }
+    100% { transform: translateY(-120vh); opacity:0; }
+}
+`;
+document.head.appendChild(style);
+
+</script>
+
+</body>
+</html>
